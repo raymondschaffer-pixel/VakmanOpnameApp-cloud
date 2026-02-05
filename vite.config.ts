@@ -15,21 +15,6 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    sourcemap: false,
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          firebase: ['firebase/app', 'firebase/auth', 'firebase/firestore', 'firebase/storage']
-        }
-      }
-    }
-  },
-  resolve: {
-    alias: {
-      'firebase/app': 'firebase/app',
-      'firebase/auth': 'firebase/auth',
-      'firebase/firestore': 'firebase/firestore',
-      'firebase/storage': 'firebase/storage'
-    }
+    sourcemap: false
   }
 });
