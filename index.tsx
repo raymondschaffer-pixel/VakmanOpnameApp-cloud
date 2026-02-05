@@ -10,7 +10,7 @@ if (!rootElement) {
 // Service Worker registratie voor iPad installatie
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    // Vite dient bestanden uit public/ direct op de root uit (bijv. /sw.js)
+    // Registreer de sw.js die in de public folder staat
     navigator.serviceWorker.register('/sw.js').then(reg => {
       console.log('SW registered successfully');
     }).catch(err => {
