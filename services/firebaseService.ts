@@ -1,4 +1,3 @@
-
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { getFirestore, doc, setDoc, collection, query, orderBy, getDocs } from "firebase/firestore";
@@ -14,19 +13,18 @@ const firebaseConfig = {
   appId: process.env.FB_APP_ID
 };
 
-// Veilig initialiseren: alleen als de sleutel aanwezig is en de app nog niet bestaat
 const isConfigured = !!firebaseConfig.apiKey && firebaseConfig.apiKey !== "";
 
 const app = isConfigured 
   ? (getApps().length === 0 ? initializeApp(firebaseConfig) : getApp()) 
   : null;
 
-const auth = app ? getAuth(app) : null;
-const db = app ? getFirestore(app) : null;
-const storage = app ? getStorage(app) : null;
+export const auth = app ? getAuth(app) : null;
+export const db = app ? getFirestore(app) : null;
+export const storage = app ? getStorage(app) : null;
 
 export const firebaseLogin = async (email: string, pass: string) => {
-  if (!auth) throw new Error("Firebase is niet goed ingesteld in Netlify.");
+  if (!auth) throw new Error("Firebase is niet geconfigureerd. Controleer de omgevingsvariabelen.");
   const userCredential = await signInWithEmailAndPassword(auth, email, pass);
   return userCredential.user;
 };
@@ -53,7 +51,7 @@ export const fetchProjectsFromCloud = async (): Promise<SavedProject[]> => {
 };
 
 export const uploadPhotoToCloud = async (roomId: string, base64: string): Promise<string> => {
-  if (!storage) throw new Error("Opslag is niet ingesteld.");
+  if (!storage) throw new Error("Firebase Storage is niet geconfigureerd.");
   const photoId = Date.now();
   const storageRef = ref(storage, `opnames/${roomId}/${photoId}.jpg`);
   await uploadString(storageRef, base64, 'data_url');
