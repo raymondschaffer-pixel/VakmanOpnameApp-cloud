@@ -4,6 +4,7 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   define: {
+    // Vite vervangt deze variabelen tijdens de build door de waarden uit Netlify Environment Variables
     'process.env.API_KEY': JSON.stringify(process.env.API_KEY || ""),
     'process.env.FB_API_KEY': JSON.stringify(process.env.FB_API_KEY || ""),
     'process.env.FB_AUTH_DOMAIN': JSON.stringify(process.env.FB_AUTH_DOMAIN || ""),
@@ -15,11 +16,13 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     sourcemap: false,
+    chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
         manualChunks: {
-          'firebase-vendor': ['firebase/app', 'firebase/auth', 'firebase/firestore', 'firebase/storage'],
-          'react-vendor': ['react', 'react-dom', 'lucide-react']
+          'firebase-core': ['firebase/app', 'firebase/auth'],
+          'firebase-data': ['firebase/firestore', 'firebase/storage'],
+          'vendor': ['react', 'react-dom', 'lucide-react']
         }
       }
     }
