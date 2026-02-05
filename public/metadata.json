@@ -1,0 +1,21 @@
+{
+  "name": "Vakman Opname Tool",
+  "short_name": "VakmanTool",
+  "description": "Professionele woningopname tool voor woningcorporaties en aannemers.",
+  "display": "standalone",
+  "start_url": "/",
+  "theme_color": "#2563eb",
+  "background_color": "#ffffff",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/609/609803.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
