@@ -2,6 +2,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
+// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
   define: {
@@ -13,9 +14,15 @@ export default defineConfig({
     'process.env.FB_MESSAGING_SENDER_ID': JSON.stringify(process.env.FB_MESSAGING_SENDER_ID || ""),
     'process.env.FB_APP_ID': JSON.stringify(process.env.FB_APP_ID || "")
   },
-  base: './',
   build: {
     outDir: 'dist',
-    emptyOutDir: true
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'firebase/app', 'firebase/auth', 'firebase/firestore', 'firebase/storage']
+        }
+      }
+    }
   }
 });

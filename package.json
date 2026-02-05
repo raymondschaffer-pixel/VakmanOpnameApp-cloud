@@ -2,7 +2,7 @@
 {
   "name": "vakman-offerte-tool",
   "private": true,
-  "version": "1.1.0",
+  "version": "1.1.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -14,7 +14,7 @@
     "react-dom": "^19.0.0",
     "lucide-react": "^0.462.0",
     "@google/genai": "^1.36.0",
-    "firebase": "^11.0.2"
+    "firebase": "^11.1.0"
   },
   "devDependencies": {
     "@types/react": "^19.0.0",
