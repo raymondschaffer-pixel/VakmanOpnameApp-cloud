@@ -1,5 +1,5 @@
 
-const CACHE_NAME = 'vakman-tool-v1.8.0';
+const CACHE_NAME = 'vakman-tool-v1.8.1';
 const ASSETS = [
   '/',
   '/index.html',
