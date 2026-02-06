@@ -91,11 +91,9 @@ const App: React.FC = () => {
           for (const registration of registrations) {
             registration.unregister();
           }
-          // window.location.reload takes no arguments in modern browsers
           window.location.reload();
         });
       } else {
-        // window.location.reload takes no arguments in modern browsers
         window.location.reload();
       }
     }
@@ -220,11 +218,11 @@ const App: React.FC = () => {
            </form>
            
            <div className="mt-12 pt-8 border-t-2 border-gray-50 flex flex-col gap-4">
-              <button onClick={handleHardRefresh} className="w-full bg-orange-50 text-orange-600 py-4 rounded-2xl font-black uppercase text-[10px] tracking-widest border-2 border-orange-100 flex items-center justify-center gap-3 shadow-sm hover:bg-orange-600 hover:text-white transition-all">
-                <RefreshCw size={14} className="animate-spin-slow"/> Systeem Update / Verversen
+              <button onClick={handleHardRefresh} className="w-full bg-orange-600 text-white py-5 rounded-2xl font-black uppercase text-[12px] tracking-widest flex items-center justify-center gap-3 shadow-xl hover:bg-orange-700 transition-all active:scale-95">
+                <RefreshCw size={18} className="animate-spin-slow"/> UPDATE SYSTEEM
               </button>
-              <p className="text-[9px] text-gray-400 text-center font-bold uppercase leading-relaxed">
-                Heeft u nieuwe functies gekregen maar zijn deze niet zichtbaar?<br/>Gebruik bovenstaande knop om de cache te legen.
+              <p className="text-[10px] text-gray-400 text-center font-bold uppercase leading-relaxed">
+                Nieuwe functies niet zichtbaar?<br/>Gebruik bovenstaande knop om de iPad cache te dwingen te verversen.
               </p>
            </div>
         </div>
