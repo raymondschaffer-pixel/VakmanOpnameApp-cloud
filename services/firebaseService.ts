@@ -1,8 +1,9 @@
+
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { getFirestore, doc, setDoc, collection, query, orderBy, getDocs } from "firebase/firestore";
+import { getFirestore, doc, setDoc, collection, query, orderBy, getDocs, deleteDoc } from "firebase/firestore";
 import { getStorage, ref, uploadString, getDownloadURL } from "firebase/storage";
-import { SavedProject } from "../types";
+import { SavedProject, UserAccount } from "../types";
 
 const firebaseConfig = {
   apiKey: process.env.FB_API_KEY,
@@ -29,6 +30,7 @@ export const firebaseLogin = async (email: string, pass: string) => {
   return userCredential.user;
 };
 
+// --- Project Functies ---
 export const saveProjectToCloud = async (project: SavedProject) => {
   if (!db) return;
   const docRef = doc(db, "projects", project.id);
@@ -50,6 +52,37 @@ export const fetchProjectsFromCloud = async (): Promise<SavedProject[]> => {
   return projects;
 };
 
+export const deleteProjectFromCloud = async (projectId: string) => {
+  if (!db) return;
+  const docRef = doc(db, "projects", projectId);
+  await deleteDoc(docRef);
+};
+
+// --- Gebruiker Functies ---
+export const fetchUsersFromCloud = async (): Promise<UserAccount[]> => {
+  if (!db) return [];
+  const usersRef = collection(db, "users");
+  const querySnapshot = await getDocs(usersRef);
+  const users: UserAccount[] = [];
+  querySnapshot.forEach((doc) => {
+    users.push(doc.data() as UserAccount);
+  });
+  return users;
+};
+
+export const saveUserToCloud = async (user: UserAccount) => {
+  if (!db) return;
+  const docRef = doc(db, "users", user.id);
+  await setDoc(docRef, user);
+};
+
+export const deleteUserFromCloud = async (userId: string) => {
+  if (!db) return;
+  const docRef = doc(db, "users", userId);
+  await deleteDoc(docRef);
+};
+
+// --- Foto Functies ---
 export const uploadPhotoToCloud = async (roomId: string, base64: string): Promise<string> => {
   if (!storage) throw new Error("Firebase Storage is niet geconfigureerd.");
   const photoId = Date.now();
