@@ -1,5 +1,5 @@
 
-const CACHE_NAME = 'vakman-tool-v1.8.0';
+const CACHE_NAME = 'vakman-tool-v1.8.1';
 const ASSETS = [
   './',
   './index.html',
@@ -8,7 +8,6 @@ const ASSETS = [
   'https://cdn.tailwindcss.com'
 ];
 
-// Installatie: Sla assets op in de cache
 self.addEventListener('install', (event) => {
   self.skipWaiting();
   event.waitUntil(
@@ -16,7 +15,6 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// Activatie: Verwijder oude caches direct
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
@@ -29,7 +27,6 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
-// Fetch: Network-First strategie
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     fetch(event.request)

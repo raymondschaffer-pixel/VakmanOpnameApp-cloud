@@ -8,7 +8,7 @@ import QuotePreview from './components/QuotePreview';
 import PriceBookManager from './components/PriceBookManager';
 import UserManager from './components/UserManager';
 import { fetchProjectsFromCloud, saveProjectToCloud, deleteProjectFromCloud, firebaseLogin, uploadPhotoToCloud, fetchUsersFromCloud, saveUserToCloud, deleteUserFromCloud } from './services/firebaseService';
-import { Home, Lock, LogIn, Cloud, PlusCircle, Database, ChevronRight, CloudUpload, Loader2, LogOut, LayoutDashboard, ClipboardList, Settings, Copyright, Eye, EyeOff, Trash2, RefreshCw, ShieldCheck as ShieldIcon } from 'lucide-react';
+import { Home, Lock, LogIn, PlusCircle, Database, ChevronRight, CloudUpload, Loader2, LogOut, LayoutDashboard, ClipboardList, Settings, Copyright, Eye, EyeOff, Trash2, RefreshCw, ShieldCheck as ShieldIcon } from 'lucide-react';
 
 const DEFAULT_ADMIN: UserAccount = { 
   id: 'admin-1', 
@@ -91,9 +91,11 @@ const App: React.FC = () => {
           for (const registration of registrations) {
             registration.unregister();
           }
+          // window.location.reload takes no arguments in modern browsers
           window.location.reload();
         });
       } else {
+        // window.location.reload takes no arguments in modern browsers
         window.location.reload();
       }
     }
@@ -216,10 +218,17 @@ const App: React.FC = () => {
                 {isSyncing ? <Loader2 className="animate-spin" /> : <LogIn size={20} />} Aanmelden
               </button>
            </form>
-           <button onClick={handleHardRefresh} className="mt-8 w-full text-[10px] font-bold text-gray-400 uppercase tracking-widest hover:text-blue-600 flex items-center justify-center gap-2">
-              <RefreshCw size={12}/> Geen nieuwe functies? Ververs Systeem
-           </button>
+           
+           <div className="mt-12 pt-8 border-t-2 border-gray-50 flex flex-col gap-4">
+              <button onClick={handleHardRefresh} className="w-full bg-orange-50 text-orange-600 py-4 rounded-2xl font-black uppercase text-[10px] tracking-widest border-2 border-orange-100 flex items-center justify-center gap-3 shadow-sm hover:bg-orange-600 hover:text-white transition-all">
+                <RefreshCw size={14} className="animate-spin-slow"/> Systeem Update / Verversen
+              </button>
+              <p className="text-[9px] text-gray-400 text-center font-bold uppercase leading-relaxed">
+                Heeft u nieuwe functies gekregen maar zijn deze niet zichtbaar?<br/>Gebruik bovenstaande knop om de cache te legen.
+              </p>
+           </div>
         </div>
+        
         <div className="mt-12 text-center text-gray-400 flex flex-col items-center gap-2">
            <p className="text-[10px] font-black uppercase tracking-[0.2em] flex items-center justify-center gap-2">
               <Copyright size={12}/> Ontwikkeld door R.Schäffer
@@ -243,6 +252,7 @@ const App: React.FC = () => {
            </div>
         </div>
         <div className="flex items-center gap-4">
+           <button onClick={handleHardRefresh} className="bg-orange-50 text-orange-600 p-4 rounded-2xl hover:bg-orange-600 hover:text-white transition-colors no-print" title="Forceer Systeem Update"><RefreshCw size={20}/></button>
            <button onClick={() => { setIsAuthenticated(false); setCurrentUser(null); }} className="bg-red-50 text-red-600 p-4 rounded-2xl hover:bg-red-100 transition-colors"><LogOut size={20}/></button>
         </div>
       </header>
