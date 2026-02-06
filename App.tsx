@@ -8,7 +8,7 @@ import QuotePreview from './components/QuotePreview';
 import PriceBookManager from './components/PriceBookManager';
 import UserManager from './components/UserManager';
 import { fetchProjectsFromCloud, saveProjectToCloud, deleteProjectFromCloud, firebaseLogin, uploadPhotoToCloud, fetchUsersFromCloud, saveUserToCloud, deleteUserFromCloud } from './services/firebaseService';
-import { Home, Lock, LogIn, Cloud, PlusCircle, Database, ChevronRight, CloudUpload, Loader2, LogOut, LayoutDashboard, ClipboardList, Settings, Copyright, Eye, EyeOff, Trash2 } from 'lucide-react';
+import { Home, Lock, LogIn, Cloud, PlusCircle, Database, ChevronRight, CloudUpload, Loader2, LogOut, LayoutDashboard, ClipboardList, Settings, Copyright, Eye, EyeOff, Trash2, RefreshCw, ShieldCheck as ShieldIcon } from 'lucide-react';
 
 const DEFAULT_ADMIN: UserAccount = { 
   id: 'admin-1', 
@@ -83,6 +83,21 @@ const App: React.FC = () => {
   useEffect(() => {
     handleRefreshCloud();
   }, []);
+
+  const handleHardRefresh = () => {
+    if (confirm("Dit zal de applicatie-cache volledig legen en de app opnieuw opstarten om de nieuwste functies te laden. Doorgaan?")) {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(registrations => {
+          for (const registration of registrations) {
+            registration.unregister();
+          }
+          window.location.reload();
+        });
+      } else {
+        window.location.reload();
+      }
+    }
+  };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -201,10 +216,16 @@ const App: React.FC = () => {
                 {isSyncing ? <Loader2 className="animate-spin" /> : <LogIn size={20} />} Aanmelden
               </button>
            </form>
+           <button onClick={handleHardRefresh} className="mt-8 w-full text-[10px] font-bold text-gray-400 uppercase tracking-widest hover:text-blue-600 flex items-center justify-center gap-2">
+              <RefreshCw size={12}/> Geen nieuwe functies? Ververs Systeem
+           </button>
         </div>
-        <div className="mt-12 text-center text-gray-400">
+        <div className="mt-12 text-center text-gray-400 flex flex-col items-center gap-2">
            <p className="text-[10px] font-black uppercase tracking-[0.2em] flex items-center justify-center gap-2">
               <Copyright size={12}/> Ontwikkeld door R.Schäffer
+           </p>
+           <p className="text-[9px] font-bold text-gray-400 uppercase tracking-tighter flex items-center gap-1.5 italic">
+              <ShieldIcon size={10} className="text-blue-400" /> Intellectueel eigendom is en blijft voorbehouden
            </p>
         </div>
       </div>
@@ -370,6 +391,20 @@ const App: React.FC = () => {
 
         {activeTab === 'settings' && currentUser?.role === 'admin' && (
           <div className="space-y-12">
+             {/* Systeem Beheer Sectie */}
+             <div className="bg-orange-50 p-8 rounded-[3rem] border-4 border-orange-100 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div className="flex items-center gap-4">
+                   <div className="p-4 bg-orange-600 text-white rounded-2xl shadow-lg"><RefreshCw size={24}/></div>
+                   <div>
+                      <h3 className="text-xl font-black uppercase tracking-tighter text-gray-800">Systeem Verversen</h3>
+                      <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mt-1">Forceer updates en wis iPad cache</p>
+                   </div>
+                </div>
+                <button onClick={handleHardRefresh} className="bg-white border-4 border-orange-200 text-orange-600 px-8 py-4 rounded-2xl font-black uppercase text-xs shadow-md hover:bg-orange-600 hover:text-white transition-all active:scale-95">
+                   Wis Cache & Start Opnieuw
+                </button>
+             </div>
+
              <PriceBookManager 
                 items={priceBook} 
                 onAdd={it => setPriceBook([...priceBook, it])} 
@@ -391,9 +426,12 @@ const App: React.FC = () => {
       </main>
 
       <footer className="w-full py-16 px-8 text-center text-gray-300 no-print border-t border-gray-100 bg-white">
-         <div className="max-w-4xl mx-auto flex flex-col items-center gap-2">
+         <div className="max-w-4xl mx-auto flex flex-col items-center gap-3">
             <p className="text-[11px] font-black uppercase tracking-[0.3em] flex items-center gap-3">
                <Copyright size={14}/> Ontwikkeld door R.Schäffer
+            </p>
+            <p className="text-[9px] font-bold text-gray-400 uppercase tracking-tighter flex items-center gap-1.5 italic">
+               <ShieldIcon size={12} className="text-blue-400" /> Intellectueel eigendom is en blijft voorbehouden
             </p>
          </div>
       </footer>
